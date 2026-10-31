@@ -1,0 +1,22 @@
+# Competition data: licence forbids redistribution
+data/
+*.wav
+*_environment/
+state.json
+
+# Models and outputs
+models/
+checkpoints/
+outputs/
+work/
+*.safetensors
+*.bin
+*.pt
+*.ckpt
+submission*.jsonl
+
+# Env and Python
+.env
+.venv/
+__pycache__/
+.ipynb_checkpoints/
