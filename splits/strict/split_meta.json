@@ -1,0 +1,16 @@
+{
+  "seed": 20261101,
+  "threshold": 0.8,
+  "val_ratio": 0.2,
+  "groups": 1304,
+  "train": {
+    "samples": 1236,
+    "utterances": 3992,
+    "with_history": 823
+  },
+  "val": {
+    "samples": 309,
+    "utterances": 1044,
+    "with_history": 195
+  }
+}
