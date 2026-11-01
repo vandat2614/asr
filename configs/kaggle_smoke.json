@@ -1,0 +1,3 @@
+[
+  {"name": "smoke", "args": ["--epochs", "1", "--limit-train", "64", "--limit-eval", "64"]}
+]

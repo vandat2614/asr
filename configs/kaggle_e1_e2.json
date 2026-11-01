@@ -1,0 +1,4 @@
+[
+  {"name": "e1", "args": []},
+  {"name": "e2", "args": ["--freeze-encoder"]}
+]

@@ -36,3 +36,6 @@
 - Wrote scripts/build_asr_dataset.py: audio.zip (614 MB) + manifest.jsonl with split flags. Uploaded to Kaggle as vandat2601/zalo-lifemate-asr (private).
 - Held-out design: primary val and strict val overlap by 58 samples, so 560 samples are held out and 985 samples (3201 utterances, about 4.3 h) remain for experiments; the final model is retrained on all 1545 samples.
 - ADR-0006: full fine-tuning at a low learning rate on raw label text, per-epoch evaluation on both validation sets.
+- Wrote scripts/train_asr.py (full fine-tune, per-epoch evaluation on both validation sets), scripts/kaggle_run.py (runs experiments from a JSON config inside a Kaggle script kernel, one per GPU) and scripts/run_kaggle.sh (push code and config, start the kernel from the VM).
+- Smoke test through the Kaggle kernel worked end to end; results match the interactive notebook run (selection WER identical, loss differs in the 4th decimal).
+- Next: E1 (full fine-tune) and E2 (frozen encoder) with configs/kaggle_e1_e2.json.
