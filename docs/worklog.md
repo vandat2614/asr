@@ -18,3 +18,6 @@
 - Kaggle notebook serves ASR via FastAPI + cloudflared tunnel; VM client in src/asr/remote.py (ADR-0004). Metrics in src/asr/metrics.py. 14 unit tests pass.
 - Smoke test, vinai/PhoWhisper-small, 20 validation utterances (preliminary, tiny sample): WER primary 0.286, raw 0.346, CER 0.154, 0.26 s GPU per utterance on T4.
 - Observed errors concentrate on time words (mai, gio, tieng, doi), person names and some opening phrases. Labels contain digits in some utterances while the model writes words, which the normalizer handles.
+- Wrote scripts/transcribe_remote.py (resumable, saves raw hypotheses to outputs/asr/<model>/) and scripts/score_asr.py.
+- Baseline vinai/PhoWhisper-small on full validation: primary WER 0.3259 / raw 0.3374 / CER 0.1812 (989 utts); strict WER 0.3260 / raw 0.3440 / CER 0.1810 (1044 utts); 0.094 s GPU per utterance on T4.
+- Number-style normalization is worth about 1-2 WER points on the full set. Final-request and history utterances are equally hard.
