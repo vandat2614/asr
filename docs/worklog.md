@@ -15,3 +15,6 @@
 - Findings: labels mostly spell numbers out; times appear as "D gio" or word form (no 8:30 form); money uses nghin/ngan; D.DDD only in assistant text.
 - Wrote src/asr/normalize.py with unit tests (10 passing).
 - ADR-0003: primary WER on normalized text, secondary raw WER.
+- Kaggle notebook serves ASR via FastAPI + cloudflared tunnel; VM client in src/asr/remote.py (ADR-0004). Metrics in src/asr/metrics.py. 14 unit tests pass.
+- Smoke test, vinai/PhoWhisper-small, 20 validation utterances (preliminary, tiny sample): WER primary 0.286, raw 0.346, CER 0.154, 0.26 s GPU per utterance on T4.
+- Observed errors concentrate on time words (mai, gio, tieng, doi), person names and some opening phrases. Labels contain digits in some utterances while the model writes words, which the normalizer handles.

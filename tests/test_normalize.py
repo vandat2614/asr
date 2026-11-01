@@ -55,6 +55,7 @@ class NormalizeTest(unittest.TestCase):
         self.check("Họp lúc 8:30", "họp lúc tám giờ ba mươi")
         self.check("Họp lúc 8:05", "họp lúc tám giờ không năm")
         self.check("Mua 8 hộp sữa", "mua tám hộp sữa")
+        self.check("7 giờ kém 10", "bảy giờ kém mười")
 
     def test_money(self):
         self.check("Chuyển 500.000 đồng", "chuyển năm trăm nghìn đồng")
