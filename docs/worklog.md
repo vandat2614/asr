@@ -11,3 +11,7 @@
 - Primary split (threshold 0.9): 1236 train / 309 val samples, 1477 groups, 98 samples in multi-sample groups.
 - Strict split (threshold 0.8): 1236 train / 309 val samples, 1304 groups, 285 samples in multi-sample groups.
 - ADR-0002: use 0.9 as primary and 0.8 as a stress test.
+- Wrote scripts/transcript_stats.py and scripts/number_style_stats.py (aggregate counts only, no transcript text).
+- Findings: labels mostly spell numbers out; times appear as "D gio" or word form (no 8:30 form); money uses nghin/ngan; D.DDD only in assistant text.
+- Wrote src/asr/normalize.py with unit tests (10 passing).
+- ADR-0003: primary WER on normalized text, secondary raw WER.
