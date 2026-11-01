@@ -21,3 +21,10 @@
 - Wrote scripts/transcribe_remote.py (resumable, saves raw hypotheses to outputs/asr/<model>/) and scripts/score_asr.py.
 - Baseline vinai/PhoWhisper-small on full validation: primary WER 0.3259 / raw 0.3374 / CER 0.1812 (989 utts); strict WER 0.3260 / raw 0.3440 / CER 0.1810 (1044 utts); 0.094 s GPU per utterance on T4.
 - Number-style normalization is worth about 1-2 WER points on the full set. Final-request and history utterances are equally hard.
+- Zero-shot benchmark on full validation (WER primary / strict / final-only primary / final-only strict):
+  - vinai/PhoWhisper-large: 0.2419 / 0.2578 / 0.2337 / 0.2327, 0.348 s GPU per utterance
+  - Qualcomm-AI-Research/PhoASR-whisper-small: 0.2557 / 0.2602 / 0.2633 / 0.2548, 0.087 s
+  - vinai/PhoWhisper-medium: 0.2634 / 0.2726 / 0.2550 / 0.2595, 0.219 s
+  - vinai/PhoWhisper-small: 0.3259 / 0.3260 / 0.3241 / 0.3165, 0.094 s
+- PhoASR-small is the best size/accuracy trade-off; large leads on final requests but there are only about 309 of them per split, so the gap is not proven.
+- Finalists: PhoASR-small and PhoWhisper-large. PhoWhisper-small dropped; medium nearly dominated.
