@@ -33,3 +33,6 @@
 - Main confusion groups: colloquial forms rewritten as standard Vietnamese (hông->không, nha->nhé), near-homophones on action words (nhắc->nhất, dời->giờ, họp->học, chín->chính), dropped fillers (ờ, ừ).
 - scripts/show_examples.py showed that "mươi" deletions are a scoring artifact (speakers say "bốn lăm", labels use digits), while "khoá" deletions are real recognition errors. Some utterances are nearly unrecognized (for example "xăng RON95", "phòng khách" heard as "phong cách").
 - Normalizer: "mươi" is now optional between tens and units. 21 tests pass. WER drops about 0.1 point for all models; ranking unchanged. PhoASR-small now 0.2547 (primary) / 0.2594 (strict).
+- Wrote scripts/build_asr_dataset.py: audio.zip (614 MB) + manifest.jsonl with split flags. Uploaded to Kaggle as vandat2601/zalo-lifemate-asr (private).
+- Held-out design: primary val and strict val overlap by 58 samples, so 560 samples are held out and 985 samples (3201 utterances, about 4.3 h) remain for experiments; the final model is retrained on all 1545 samples.
+- ADR-0006: full fine-tuning at a low learning rate on raw label text, per-epoch evaluation on both validation sets.
