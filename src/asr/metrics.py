@@ -31,3 +31,39 @@ def corpus_cer(refs, hyps, normalize):
         errors += edit_distance(ref_chars, normalize(hyp))
         chars += len(ref_chars)
     return errors / max(chars, 1)
+
+
+def align_ops(ref, hyp):
+    """Align two token lists. Returns a list of (op, ref_token, hyp_token).
+
+    op is one of 'ok', 'sub', 'del', 'ins'. The number of non-'ok' ops equals
+    edit_distance(ref, hyp).
+    """
+    n, m = len(ref), len(hyp)
+    d = [[0] * (m + 1) for _ in range(n + 1)]
+    for i in range(n + 1):
+        d[i][0] = i
+    for j in range(m + 1):
+        d[0][j] = j
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            d[i][j] = min(
+                d[i - 1][j] + 1,
+                d[i][j - 1] + 1,
+                d[i - 1][j - 1] + (ref[i - 1] != hyp[j - 1]),
+            )
+    ops = []
+    i, j = n, m
+    while i > 0 or j > 0:
+        if i > 0 and j > 0 and d[i][j] == d[i - 1][j - 1] + (ref[i - 1] != hyp[j - 1]):
+            ops.append(("ok" if ref[i - 1] == hyp[j - 1] else "sub", ref[i - 1], hyp[j - 1]))
+            i -= 1
+            j -= 1
+        elif i > 0 and d[i][j] == d[i - 1][j] + 1:
+            ops.append(("del", ref[i - 1], None))
+            i -= 1
+        else:
+            ops.append(("ins", None, hyp[j - 1]))
+            j -= 1
+    ops.reverse()
+    return ops
