@@ -100,6 +100,8 @@ _VARIANTS = [
     (re.compile(r"\bmốt\b"), "một"),
     (re.compile(r"\blẻ\b"), "linh"),
     (re.compile(r"\b(mươi|mười)\s+tư\b"), r"\1 bốn"),
+    # Spoken short form: "bốn lăm" (45) == "bốn mươi lăm".
+    (re.compile(r"\bmươi\s+(?=(?:một|hai|ba|bốn|năm|sáu|bảy|tám|chín)\b)"), ""),
 ]
 
 

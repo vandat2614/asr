@@ -29,3 +29,7 @@
 - PhoASR-small is the best size/accuracy trade-off; large leads on final requests but there are only about 309 of them per split, so the gap is not proven.
 - Finalists: PhoASR-small and PhoWhisper-large. PhoWhisper-small dropped; medium nearly dominated.
 - ADR-0005: PhoASR-whisper-small chosen as primary ASR (faster fine-tuning, leaves parameter budget for the LLM). PhoWhisper-large kept as accuracy reference only.
+- Error analysis of PhoASR-small on the primary validation split (scripts/error_analysis.py): 91.7% of reference-word errors fall on words seen more than 5 times in train; unseen or rare words account for about 8%. Error rate: number words 17.1%, time-related words 16.2%.
+- Main confusion groups: colloquial forms rewritten as standard Vietnamese (hông->không, nha->nhé), near-homophones on action words (nhắc->nhất, dời->giờ, họp->học, chín->chính), dropped fillers (ờ, ừ).
+- scripts/show_examples.py showed that "mươi" deletions are a scoring artifact (speakers say "bốn lăm", labels use digits), while "khoá" deletions are real recognition errors. Some utterances are nearly unrecognized (for example "xăng RON95", "phòng khách" heard as "phong cách").
+- Normalizer: "mươi" is now optional between tens and units. 21 tests pass. WER drops about 0.1 point for all models; ranking unchanged. PhoASR-small now 0.2547 (primary) / 0.2594 (strict).

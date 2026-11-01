@@ -49,7 +49,7 @@ class NormalizeTest(unittest.TestCase):
         self.assertEqual(normalize_text(nfd), normalize_text(raw))
 
     def test_temperature_and_time(self):
-        self.check("Bật điều hòa 26 độ.", "bật điều hòa hai mươi sáu độ")
+        self.check("Bật điều hòa 26 độ.", "bật điều hòa hai sáu độ")
         self.check("Đặt báo thức 8 giờ", "đặt báo thức tám giờ")
         self.check("Đặt báo thức 8h30", "đặt báo thức tám giờ ba mươi")
         self.check("Họp lúc 8:30", "họp lúc tám giờ ba mươi")
@@ -67,7 +67,7 @@ class NormalizeTest(unittest.TestCase):
         self.assertEqual(normalize_text("hai mươi lăm"), normalize_text("hai mươi năm"))
         self.assertEqual(normalize_text("hai mươi mốt"), normalize_text("hai mươi một"))
         self.assertEqual(normalize_text("một trăm lẻ năm"), normalize_text("105"))
-        self.assertEqual(normalize_text("hai mươi tư độ"), "hai mươi bốn độ")
+        self.assertEqual(normalize_text("hai mươi tư độ"), "hai bốn độ")
         self.assertEqual(normalize_text("25 độ"), normalize_text("hai mươi lăm độ"))
 
     def test_tu_is_kept_outside_numbers(self):

@@ -91,3 +91,11 @@ choice auditable.
 1. [ ] Run normalize_text over all train transcripts and review leftovers
    (digits, unusual symbols).
 2. [ ] Add a WER script that reports both primary and raw WER.
+
+## Amendment 2026-11-01: optional "mươi" between tens and units
+Error analysis showed that speakers often use the short spoken form ("bốn lăm"
+for 45, "chín lăm" for RON95) while labels use digits, which the normalizer
+expanded to the full form. This produced artificial deletions of "mươi".
+The normalizer now drops "mươi" when it is followed by a digit word, on both
+the reference and the hypothesis. Bare tens ("ba mươi phần trăm") keep it.
+Effect: about 0.1 WER point lower for every model, ranking unchanged.
