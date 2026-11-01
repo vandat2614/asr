@@ -28,3 +28,4 @@
   - vinai/PhoWhisper-small: 0.3259 / 0.3260 / 0.3241 / 0.3165, 0.094 s
 - PhoASR-small is the best size/accuracy trade-off; large leads on final requests but there are only about 309 of them per split, so the gap is not proven.
 - Finalists: PhoASR-small and PhoWhisper-large. PhoWhisper-small dropped; medium nearly dominated.
+- ADR-0005: PhoASR-whisper-small chosen as primary ASR (faster fine-tuning, leaves parameter budget for the LLM). PhoWhisper-large kept as accuracy reference only.
