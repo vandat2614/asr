@@ -57,3 +57,21 @@ Findings:
 - Caveat: validation shares the scenario distribution with train; test WER is likely higher.
 
 Next: per-category error analysis of e1/best, then `--final` run on all data (about 4 epochs).
+
+## 2026-11-02 - Inference check and error analysis of e1/best
+
+Inference with the e1/best checkpoint (Kaggle kernel `zalo-asr-infer`, greedy, fp16) reproduces the
+training-time numbers (primary 0.1286 vs 0.1288, strict 0.1330 vs 0.1330).
+
+Error analysis (e1, primary):
+- Frequent words carry 86% of the errors; rare and unseen words only ~14%.
+- Time words (6.5%) and number words (6.0%) are below the average error rate.
+- Many top substitutions are label-style variants, not recognition errors: không/hông, nghe/nha/nhé,
+  giùm/dùm, tui/tôi, and old/new tone placement.
+- Meaning-changing confusions worth tracking: dời->giờ (7), học->họp, hạn->hẹn, tối->tới.
+
+Normalizer amendment (ADR-0003): unify old/new tone placement on open syllables.
+New reference numbers: zero-shot PhoASR-small primary 0.2542 / strict 0.2589;
+e1 primary 0.1272 / strict 0.1316.
+
+Next: keyword-level metric for tool-call relevant words; then final run on all data (about 4 epochs).

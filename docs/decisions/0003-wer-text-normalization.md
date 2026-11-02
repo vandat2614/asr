@@ -99,3 +99,15 @@ expanded to the full form. This produced artificial deletions of "mươi".
 The normalizer now drops "mươi" when it is followed by a digit word, on both
 the reference and the hypothesis. Bare tens ("ba mươi phần trăm") keep it.
 Effect: about 0.1 WER point lower for every model, ranking unchanged.
+
+## Amendment 2026-11-02: tone placement on open syllables
+
+Labels mix old and new tone placement (hoá/hóa, khoá/khóa, huỷ/hủy). Both are
+valid spellings and sound identical, so the difference is not an ASR error.
+`normalize_text` now rewrites the old style to the new one, only for open
+syllables (oa, oe, uy at the end of a word). Closed syllables (hoàn, toán) and
+"qu" syllables (quý, quỳ) are left alone.
+
+`normalize_basic` is unchanged, so "WER raw" still reports the literal text.
+Effect on the e1 fine-tuned model: primary WER 0.1286 -> 0.1272, strict
+0.1330 -> 0.1316. All reported numbers after this date use the new normalizer.
