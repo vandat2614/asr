@@ -39,3 +39,21 @@
 - Wrote scripts/train_asr.py (full fine-tune, per-epoch evaluation on both validation sets), scripts/kaggle_run.py (runs experiments from a JSON config inside a Kaggle script kernel, one per GPU) and scripts/run_kaggle.sh (push code and config, start the kernel from the VM).
 - Smoke test through the Kaggle kernel worked end to end; results match the interactive notebook run (selection WER identical, loss differs in the 4th decimal).
 - Next: E1 (full fine-tune) and E2 (frozen encoder) with configs/kaggle_e1_e2.json.
+
+## 2026-11-02 - E1/E2 fine-tuning on Kaggle (experiment mode, train on clean split only)
+
+Setup: PhoASR-small, lr 1e-5, 5 epochs, fp16, greedy decoding. Eval on the union of both validation sets.
+Zero-shot baseline: primary WER 0.2547, strict WER 0.2594, primary CER 0.1451.
+
+| Exp | Best epoch | Primary WER | Strict WER | Primary CER | Wall time |
+|---|---|---|---|---|---|
+| e1 full fine-tune | 5 (epoch 2 within noise) | 0.1288 | 0.1330 | 0.0765 | ~44 min |
+| e2 frozen encoder | 3 | 0.1710 | 0.1782 | 0.1020 | ~27 min |
+
+Findings:
+- E1 halves WER vs zero-shot (-12.6 points absolute). Primary and strict agree, so the split does not look leaky.
+- Frozen encoder loses ~4 points: acoustic adaptation matters most.
+- E1 val WER plateaus from epoch 2 while train loss keeps falling; epochs 3-5 add nothing measurable.
+- Caveat: validation shares the scenario distribution with train; test WER is likely higher.
+
+Next: per-category error analysis of e1/best, then `--final` run on all data (about 4 epochs).
