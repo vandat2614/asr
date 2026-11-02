@@ -9,7 +9,8 @@ Steps of `normalize_text`:
      percent, phone-like numbers).
   3. Merge spelling variants: ngan -> nghin, lam -> nam, mot (mốt) -> mot,
      le -> linh, "muoi tu" -> "muoi bon".
-  4. Replace punctuation with spaces and collapse whitespace.
+  4. Unify tone placement on open syllables (oa/oe/uy): hoá == hóa.
+  5. Replace punctuation with spaces and collapse whitespace.
 
 `normalize_basic` does steps 1 and 4 only (no digit expansion, no variant
 merge). It is used for the secondary "raw" WER.
@@ -111,6 +112,21 @@ def _merge_variants(text):
     return text
 
 
+# Old vs new tone placement on OPEN syllables: hoá/hóa, khoẻ/khỏe, thuý/thúy.
+# Closed syllables (hoàn, toán) are untouched because the match must end the
+# word. "qu" syllables (quý, quỳ) keep the tone on y in both styles.
+_TONE_FIX = {
+    "oá": "óa", "oà": "òa", "oả": "ỏa", "oã": "õa", "oạ": "ọa",
+    "oé": "óe", "oè": "òe", "oẻ": "ỏe", "oẽ": "õe", "oẹ": "ọe",
+    "uý": "úy", "uỳ": "ùy", "uỷ": "ủy", "uỹ": "ũy", "uỵ": "ụy",
+}
+_TONE_RX = re.compile(r"(?<!q)(" + "|".join(_TONE_FIX) + r")(?!\w)")
+
+
+def _fix_tone_placement(text):
+    return _TONE_RX.sub(lambda m: _TONE_FIX[m.group(1)], text)
+
+
 def _clean(text):
     text = re.sub(r"[^\w\s]|_", " ", text)
     return re.sub(r"\s+", " ", text).strip()
@@ -126,4 +142,5 @@ def normalize_text(text):
     text = unicodedata.normalize("NFC", text).lower()
     text = _expand_digits(text)
     text = _merge_variants(text)
+    text = _fix_tone_placement(text)
     return _clean(text)
