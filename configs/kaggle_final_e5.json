@@ -1,0 +1,4 @@
+[
+  {"name": "final_e4", "args": ["--final", "--spec-augment", "--mask-time-prob", "0.1", "--mask-feature-prob", "0.1"]},
+  {"name": "e5", "args": ["--spec-augment", "--mask-time-prob", "0.15", "--mask-feature-prob", "0.15"]}
+]

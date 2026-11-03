@@ -75,3 +75,20 @@ New reference numbers: zero-shot PhoASR-small primary 0.2542 / strict 0.2589;
 e1 primary 0.1272 / strict 0.1316.
 
 Next: keyword-level metric for tool-call relevant words; then final run on all data (about 4 epochs).
+
+## 2026-11-03 - E3/E4: SpecAugment (experiment mode, new normalizer)
+
+Same recipe as e1 plus SpecAugment (time/feature mask probability). Reference e1 under the new
+normalizer: primary 0.1272, strict 0.1316, CER 0.0758.
+
+| Exp | Masks (time/feature) | Primary WER | Strict WER | Primary CER | Final train loss |
+|---|---|---|---|---|---|
+| e3 | 0.05 / 0.05 | 0.1131 (ep5) | 0.1175 | 0.0690 | 0.098 |
+| e4 | 0.10 / 0.10 | 0.1107 (ep4=ep5) | 0.1126 | 0.0672 | 0.166 |
+
+Findings:
+- SpecAugment removes most of the overfitting: -1.65 points primary, -1.9 points strict vs e1.
+- Stronger masking helps, with diminishing returns (e3 -> e4: -0.24 points primary).
+- Selection was done on the same validation sets used for reporting, so numbers are slightly optimistic.
+
+Next: `--final` on all data with the e4 recipe (final_e4) and e5 (masks 0.15) in parallel.

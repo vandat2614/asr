@@ -83,3 +83,9 @@ Option A stays as a fallback if B overfits.
 1. [ ] Write `train_asr.py` and the Kaggle code dataset.
 2. [ ] Run experiment E1 (full fine-tune, lr 1e-5, 5 epochs).
 3. [ ] Compare against zero-shot on both validation sets and on keywords.
+
+## Amendment 2026-11-03: SpecAugment
+
+Full fine-tuning without augmentation overfits (train loss 0.008 while validation WER is flat from
+epoch 2). Enabling SpecAugment (time and feature masks) lowers primary WER from 0.1272 to 0.1107
+with masks 0.1/0.1. The final recipe uses SpecAugment; the mask strength is tuned on validation.
