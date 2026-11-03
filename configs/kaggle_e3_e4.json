@@ -1,0 +1,4 @@
+[
+  {"name": "e3", "args": ["--spec-augment", "--mask-time-prob", "0.05", "--mask-feature-prob", "0.05"]},
+  {"name": "e4", "args": ["--spec-augment", "--mask-time-prob", "0.1", "--mask-feature-prob", "0.1"]}
+]

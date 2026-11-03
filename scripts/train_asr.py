@@ -46,6 +46,9 @@ def parse_args():
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--seed", type=int, default=17)
     ap.add_argument("--freeze-encoder", action="store_true")
+    ap.add_argument("--spec-augment", action="store_true")
+    ap.add_argument("--mask-time-prob", type=float, default=0.05)
+    ap.add_argument("--mask-feature-prob", type=float, default=0.0)
     ap.add_argument("--final", action="store_true")
     ap.add_argument("--limit-train", type=int, default=0)
     ap.add_argument("--limit-eval", type=int, default=0)
@@ -192,6 +195,11 @@ def main():
     processor = WhisperProcessor.from_pretrained(args.model)
     processor.tokenizer.set_prefix_tokens(language="vi", task="transcribe")
     model = WhisperForConditionalGeneration.from_pretrained(args.model, torch_dtype=torch.float32).to(device)
+    if args.spec_augment:
+        model.config.apply_spec_augment = True
+        model.config.mask_time_prob = args.mask_time_prob
+        model.config.mask_feature_prob = args.mask_feature_prob
+        print(f"spec_augment time={args.mask_time_prob} feature={args.mask_feature_prob}", flush=True)
     model.config.use_cache = False
     if args.freeze_encoder:
         for p in model.model.encoder.parameters():
