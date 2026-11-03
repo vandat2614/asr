@@ -52,6 +52,9 @@ def main():
     data_root = os.path.dirname(manifest_path)
     print("MANIFEST:", manifest_path, flush=True)
     print("CKPT:", ckpt_dir, flush=True)
+    tag_file = os.path.join(ckpt_dir, "tag.txt")
+    tag = open(tag_file).read().strip() if os.path.exists(tag_file) else "finetuned/unknown"
+    print("TAG:", tag, flush=True)
 
     rows = [json.loads(line) for line in open(manifest_path, encoding="utf-8")]
     rows = [r for r in rows if r.get("primary") == "val" or r.get("strict") == "val"]
@@ -110,7 +113,7 @@ def main():
             }
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
     meta = {
-        "model": "finetuned/e1-best",
+        "model": tag,
         "utterances": len(rows),
         "gpu_seconds": time.time() - t0,
     }
