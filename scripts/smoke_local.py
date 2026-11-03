@@ -48,6 +48,7 @@ for r, text in zip(picked, local):
     ok = normalize_text(text) == normalize_text(r["hyp"])
     same += ok
     print(f"\n[{'same' if ok else 'DIFF'}] {r['uid']}")
+    print("  ref  :", r["ref"][:120])
     print("  gpu  :", r["hyp"][:120])
     print("  local:", text[:120])
 print(f"\nidentical after normalization: {same}/{len(picked)}")
