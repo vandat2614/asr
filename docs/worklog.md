@@ -92,3 +92,23 @@ Findings:
 - Selection was done on the same validation sets used for reporting, so numbers are slightly optimistic.
 
 Next: `--final` on all data with the e4 recipe (final_e4) and e5 (masks 0.15) in parallel.
+
+## 2026-11-03 - E5, final run, offline backend and decoding variants
+
+- e5 (SpecAugment 0.15/0.15): primary 0.1074, strict 0.1126 at epoch 5. Within noise of e4
+  (0.1107 / 0.1126), so the e4 recipe is kept. Further mask tuning is not worth the GPU time.
+- final_e4 (e4 recipe, all 1545 samples, 5 epochs, last epoch kept): trained, train loss 0.140.
+  It has no held-out validation; its quality is inferred from e4.
+- `src/asr/local.py`: offline backend (`LocalASR.transcribe(paths) -> list[str]`). CPU smoke test on
+  8 utterances loads from the checkpoint directory without network, 7/8 identical to GPU output.
+- Decoding variants of e4-best on the validation union (primary / strict WER, final-only number
+  accuracy, final-only name recall):
+
+| Variant | Primary | Strict | Numbers right | Name recall |
+|---|---|---|---|---|
+| greedy fp16 | 0.1108 | 0.1128 | 0.896 | 0.812 |
+| greedy fp32 | 0.1106 | 0.1127 | 0.896 | 0.812 |
+| beam5 fp16 | 0.1030 | 0.1052 | 0.911 | 0.824 |
+| beam5 fp32 | 0.1030 | 0.1052 | 0.908 | 0.826 |
+
+Decision: beam search with 5 beams, fp16. Precision makes no measurable difference.
