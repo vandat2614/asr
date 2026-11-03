@@ -29,7 +29,7 @@ def _load_audio(path):
 
 
 class LocalASR:
-    def __init__(self, ckpt_dir, device=None, num_beams=1, batch_size=16, precision="auto"):
+    def __init__(self, ckpt_dir, device=None, num_beams=5, batch_size=1, precision="auto"):
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         if precision == "auto":
             precision = "fp16" if self.device.startswith("cuda") else "fp32"

@@ -112,3 +112,10 @@ Next: `--final` on all data with the e4 recipe (final_e4) and e5 (masks 0.15) in
 | beam5 fp32 | 0.1030 | 0.1052 | 0.908 | 0.826 |
 
 Decision: beam search with 5 beams, fp16. Precision makes no measurable difference.
+
+## 2026-11-04 - ASR module v0.1 (interim)
+
+Packaged `models/asr-final` (final_e4) with `LocalASR` (beam 5, batch 1) and `scripts/transcribe_local.py`.
+CPU smoke test on 8 utterances: the final model matches the labels on 5/8 after normalization and
+fixes all three utterances that e4-best got wrong. Known gaps are listed in `docs/asr-module.md`.
+The batch-size determinism check was deliberately postponed.
